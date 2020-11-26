@@ -1,4 +1,4 @@
-zabbix 部署包安装
+zabbix 部署包安装   CDVDZABETXUBBEDN(网易邮箱授权)
 	一. 安装LAMP环境
 		1.1 Linux
 
@@ -45,28 +45,28 @@ zabbix 部署包安装
 
 	二 安装zabbix
 		2.1 下载安装
-			 wget https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-2.el7.noarch.rpm  //下载repo包
-			 rpm -ivh zabbix-release-4.0-2.el7.noarch.rpm   //添加
-			 vim /etc/yum.repos.d/zabbix.repo   //修改
+			 wget https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/4.0/rhel/7/x86_64/zabbix-release-4.0-2.el7.noarch.rpm  ##下载repo包
+			 rpm -ivh zabbix-release-4.0-2.el7.noarch.rpm   ##添加
+			 vim /etc/yum.repos.d/zabbix.repo   ##修改
 			 	http://repo.zabbix.com/zabbix/4.0/rhel/7/$basearch/  替换为   baseurl=https://mirrors.tuna.tsinghua.edu.cn/zabbix/zabbix/4.0/rhel/7/$basearch/
 			 yum install zabbix-server-mysql zabbix-web-mysql
 
 		2.2 配置数据库
-			mysql_secure_installation   //安全初始配置
-				Enter current password for root (enter for none):   //有无管理员密码
-				Set root password? [Y/n] n 							//设置管理员密码
-				Remove anonymous users? [Y/n] y 					//删除其他用户
-				Disallow root login remotely? [Y/n] y 				//禁止管理员远程登陆
-				Remove test database and access to it? [Y/n] y 		//删除测试数据库
-				Reload privilege tables now? [Y/n] y 				//重新加载权限表
+			mysql_secure_installation   ##安全初始配置
+				Enter current password for root (enter for none):   ##有无管理员密码
+				Set root password? [Y/n] n 							##设置管理员密码
+				Remove anonymous users? [Y/n] y 					##删除其他用户
+				Disallow root login remotely? [Y/n] y 				##禁止管理员远程登陆
+				Remove test database and access to it? [Y/n] y 		##删除测试数据库
+				Reload privilege tables now? [Y/n] y 				##重新加载权限表
 		2.3 创建表,添加zabbix用户
 			mysql
-			MariaDB [(none)]> create database zabbix character set utf8 collate utf8_bin;		//建表
-			MariaDB [(none)]> grant all privileges on zabbix.* to zabbix@localhost identified by '123456'; 		//授予权限
+			MariaDB [(none)]> create database zabbix character set utf8 collate utf8_bin;		##建表
+			MariaDB [(none)]> grant all privileges on zabbix.* to zabbix@localhost identified by '123456'; 		##授予权限
 
 		2.4 导入数据
-			rpm -ql zabbix-server-mysql | grep sql 		//查找数据在哪
-			zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uzabbix -p123456 zabbix  		//导入数据
+			rpm -ql zabbix-server-mysql | grep sql 		##查找数据在哪
+			zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -uzabbix -p123456 zabbix  		##导入数据
 
 		2.5 检查zabbix库是否导入成功
 			mysql -uroot  zabbix -e 'show tables'
@@ -82,7 +82,7 @@ zabbix 部署包安装
 
 		3.2 修改Zabbix前端的PHP配置,并启动httpd
 			vim /etc/httpd/conf.d/zabbix.conf
-			php_value date.timezone Asia/Shanghai		//修改时区
+			php_value date.timezone Asia/Shanghai		##修改时区
 			systemctl start httpd
 			systemctl enable httpd
 
@@ -99,9 +99,9 @@ zabbix 部署包安装
 
 	四:常用监控命令
 		1. free 查看内存使用 
-			//程序占用的真正内存就是：- buffers/cached 的数值。
-			//真正已经用的内存数：used-(buffers+cached)的值。
-			//真正未用到的内存数：free+buffers+cached  的值。
+			##程序占用的真正内存就是：- buffers/cached 的数值。
+			##真正已经用的内存数：used-(buffers+cached)的值。
+			##真正未用到的内存数：free+buffers+cached  的值。
 			常用选项: 
 				-h : 以人类可读的方式
 				-g : 单位为G
@@ -113,8 +113,8 @@ zabbix 部署包安装
 			-T, --print-type 显示文件系统的形式
 
 		3. top 显示进程信息
-			top -n 2 	//设置信息更新次数,表示更新两次后终止更新显示
-			top -d 3	//表示更新周期为3秒
+			top -n 2 	##设置信息更新次数,表示更新两次后终止更新显示
+			top -d 3	##表示更新周期为3秒
 			top - 21:51:29(系统时间) up 25 min(启动时间),  2 users(登录的用户,几个终端),  load average: 0.00(一分钟负载), 0.01(五分钟负载), 0.05(十五分钟负载)
 			Tasks: 156 total(总进程),   1 running(正在运行), 155 sleeping(休眠状态),   0 stopped(停止的),   0 zombie(僵尸进程)
 			%Cpu(s):  3.3 us(用户使用百分比),  0.3 sy(内核使用百分比),  0.0 ni(优先级), 96.3 id(空闲值),  0.0 wa(io等待),  0.0 hi(硬中断),  0.0 si(软中断),  0.0 st(虚拟化CPU使用)
@@ -125,10 +125,10 @@ zabbix 部署包安装
 		5. iftop 实时流量监控工具(需要编译安装)
 			可以用来监控网卡的实时流量（可以指定网段）、反向解析IP、显示端口信息等.
 
-		6. iostat  	//yum install sysstat(没有命令的话,使用yum provides(通过命令查询rpm包) iostat 查询)
+		6. iostat  	##yum install sysstat(没有命令的话,使用yum provides(通过命令查询rpm包) iostat 查询)
 			Device:            tps(每秒硬盘传输的次数)    kB_read/s(每秒硬盘读的数据量kb)    kB_wrtn/s(每秒硬盘写的数据量kb)    kB_read(总的读数据量)    kB_wrtn(总的写数据量)
 			iostat | awk 'NR==7 {print $2}'
-		7. iotop  //yum install iotop
+		7. iotop  ##yum install iotop
 			查看每个进程使用的硬盘数据量
 
 		8. ps   ps命令用于显示当前进程 (process) 的状态
@@ -151,15 +151,58 @@ zabbix 部署包安装
 					L: 有记忆体分页分配并锁在记忆体内 (实时系统或捱A I/O)
 
 		9. netstat
-			netstat -nulpt   //查询监听的端口,PID等信息
-			netstat -antp | grep 80 | grep -c ESTABLISHED  //查询并发数(看ESTABLISHED状态的) 	//grep -c 计数的
+			netstat -nulpt   ##查询监听的端口,PID等信息
+			netstat -antp | grep 80 | grep -c ESTABLISHED  ##查询并发数(看ESTABLISHED状态的) 	##grep -c 计数的
 
 
+	五 监控一台服务器主机
+		5.1 安装zabbix-agent
+			rpm -ivh https://mirror.tuna.tsinghua.edu.cn/zabbix/zabbix/4.0/rhel/7/x86_64/zabbix-agent-4.0.11-1.el7.x86_64.rpm
 
+		5.2 配置zabbix-agent
+			vim /etc/zabbix/zabbix_agentd.conf
+				Server=192.168.2.151
 
+		5.3 启动zabbix-agent
+			systemctl start  zabbix-agent
+			systemctl enable  zabbix-agent
 
+		5.4 zabbix-web界面，添加主机
+			配置-->主机-->创建主机[主机名称(要求唯一，IP唯一)群组(分组)agent代理程序的接口(IP地址,端口一般默认)]-->模板[链接指示器(监控项目)小添加]-->添加
 
+	六 自定义监控项
+		6.1 命令行，手动取值
+			[root@zabbix-server ~]# iostat|awk '$1 ~/sda/'
+			sda               4.07        41.98        68.30     255455     415578
+			[root@zabbix-server ~]# iostat|awk '$1 ~/sda/{print $2}'
+			4.07
 
+		6.2 修改zabbix-agent配置文件
+			vim /etc/zabbix/zabbix_agentd.conf
+			UserParameter=sda_tps,iostat|awk '$1 ~/sda/{print $2}'
+​
+		6.3 重启agent程序
+			systemctl restart zabbix-agent.service
+
+		6.4 zabbix-server测试监控项取值
+			zabbix_get  -s 127.0.0.1 -k sda_tps		##-s指定agent的IP地址
+
+	七 使用grafana为zabbix出图
+		7.1 安装granfana
+			wget https://dl.grafana.com/oss/release/grafana-7.0.6-1.x86_64.rpm
+			yum localinstall grafana-7.0.6-1.x86_64.rpm
+			systemctl start grafana-server.service
+			systemctl enable grafana-server.service
+
+		7.2 安装zabbix插件
+			grafana-cli plugins list-remote | grep zabbix 		##查询zabbix插件叫什么ID
+			grafana-cli plugins install alexanderzobnin-zabbix-app  	##下载,速度慢
+			https://grafana.com/api/plugins/alexanderzobnin-zabbix-app/versions/3.12.2/download 	##去这个地址下载
+			unzip alexanderzobnin-grafana-zabbix-v3.12.2-1-g793129b.zip
+
+		7.3 重启ganfana
+			systemctl restart grafana-server
+			登录查看
 
 
 
